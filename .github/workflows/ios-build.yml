@@ -13,6 +13,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Select latest Xcode installed
+        run: |
+          echo "Xcodes disponibles:"
+          ls -1d /Applications/Xcode*.app || true
+          LATEST=$(ls -1d /Applications/Xcode*.app | sort | tail -n 1)
+          echo "Seleccionando: $LATEST"
+          sudo xcode-select -s "$LATEST/Contents/Developer"
+          xcodebuild -version
+          xcode-select -p
+
       - name: Show Xcode version
         run: |
           xcodebuild -version
