@@ -1,0 +1,47 @@
+name: Build iOS (Objective-C) without Mac
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: |
+          xcodebuild -version
+          xcode-select -p
+
+      - name: Install XcodeGen
+        run: |
+          brew update
+          brew install xcodegen
+
+      - name: Generate Xcode project
+        run: |
+          xcodegen generate
+
+      - name: Build (iOS Simulator)
+        run: |
+          xcodebuild -project SabiasQue.xcodeproj \
+            -scheme SabiasQue \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -configuration Debug \
+            build \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
+
+      - name: Zip project
+        run: |
+          ditto -c -k --sequesterRsrc --keepParent . SabiasQue-XcodeProject.zip
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SabiasQue-XcodeProject
+          path: SabiasQue-XcodeProject.zip
