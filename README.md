@@ -9,9 +9,8 @@ GitHub Actions ejecuta el build en una máquina **macOS** y genera un ZIP descar
 3. Ve a **Actions** y abre el workflow **Build iOS (Objective‑C) without Mac**.
 4. Espera a que termine y descarga el **Artifact**: `SabiasQue-XcodeProject.zip`.
 
-## Qué entregas al profesor
+## Qué entregas
 - El ZIP del artifact (incluye el `.xcodeproj` generado).
-- Tus imágenes del wireframe (por ejemplo, 3 PNG: estado inicial + dato 1 + dato 2).
 
 ## Nota
 Este build compila para **iOS Simulator** y desactiva firma de código (lo normal en CI).
